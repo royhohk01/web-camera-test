@@ -151,8 +151,9 @@ export default function Home() {
   }, [deviceInfos, currentDeviceInfoIndex]);
 
   const handleStart = () => {
-    navigator.mediaDevices.getUserMedia({ video: true });
-    setShouldStart(true);
+    navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
+      setShouldStart(true);
+    });
   };
 
   const clearMediaStream = () => {

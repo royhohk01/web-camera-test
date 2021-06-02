@@ -88,6 +88,7 @@ export default function Home() {
     // To trigger Ask Permission Dialog
     // navigator.mediaDevices.getUserMedia({ video: true });
     if (shouldStart) {
+      navigator.mediaDevices.getUserMedia({ video: true });
       navigator.mediaDevices
         .enumerateDevices()
         .then((deviceInfos) => {

@@ -125,12 +125,13 @@ export default function ExactPage() {
 
     clearMediaStream();
     setCurrentDeviceInfosIndex(nextDeviceIndex);
+    setMsg(JSON.stringify(deviceInfos[nextDeviceIndex]));
   }, [deviceInfos, currentDeviceInfoIndex]);
 
   return (
     <>
       <Head>
-        <title>Exact Device | Camera Test Page </title>
+        <title>Exact Device | Camera Test Page</title>
       </Head>
       <div className={styles.container}>
         <h1 className={styles.heading}>Camera Test</h1>
@@ -140,7 +141,6 @@ export default function ExactPage() {
             <legend>Exact Device:</legend>
             <button
               onClick={() => {
-                setMsg(JSON.stringify(deviceInfos[currentDeviceInfoIndex]));
                 handleSwitchCamera();
               }}
               className={styles.button}

@@ -32,7 +32,7 @@ class ErrorBoundary extends React.Component {
 }
 
 export default function FacingPage() {
-  const [facingMode, setFacingMode] = useState("environment");
+  const [facingMode, setFacingMode] = useState("");
   const [deviceInfosError, setDeviceInfosError] = useState<{
     message?: any;
     name?: any;
@@ -59,16 +59,22 @@ export default function FacingPage() {
         const tracks = stream.getTracks();
         tracks.forEach((track) => track.stop());
 
-        navigator.mediaDevices
+        const deviceInfos = navigator.mediaDevices
           .enumerateDevices()
           .then((deviceInfos) => {
             const videoDeviceInfos = deviceInfos.filter(
               (deviceInfo) => deviceInfo.kind === "videoinput"
             );
             console.log("videoDeviceInfos", videoDeviceInfos);
-            setFacingMode("environment");
+
+            return deviceInfos;
           })
           .catch(handleError);
+
+        // @ts-ignore
+        if (deviceInfos && deviceInfos.length > 0) {
+          setFacingMode("environment");
+        }
       })
       .catch((err) => {
         console.log("err", err);
@@ -143,24 +149,7 @@ export default function FacingPage() {
             <legend>Facing Mode:</legend>
             <button
               onClick={() => {
-                setMsg("Facing Mode");
-                navigator.mediaDevices
-                  .getUserMedia({
-                    audio: false,
-                    video: true,
-                  })
-                  .then((stream) => {
-                    const tracks = stream.getTracks();
-                    tracks.forEach((track) => track.stop());
-                  });
-              }}
-              className={styles.button}
-            >
-              Start
-            </button>
-            <button
-              onClick={() => {
-                setMsg("Facing Mode");
+                setMsg(facingMode);
                 handleSwitchCamera();
               }}
               className={styles.button}

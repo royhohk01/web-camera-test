@@ -32,7 +32,7 @@ class ErrorBoundary extends React.Component {
 }
 
 export default function FacingPage() {
-  const [facingMode, setFacingMode] = useState(null);
+  const [facingMode, setFacingMode] = useState("");
   const [deviceInfosError, setDeviceInfosError] = useState<{
     message?: any;
     name?: any;
@@ -59,7 +59,7 @@ export default function FacingPage() {
         const tracks = stream.getTracks();
         tracks.forEach((track) => track.stop());
 
-        const deviceInfos = navigator.mediaDevices
+        navigator.mediaDevices
           .enumerateDevices()
           .then((deviceInfos) => {
             const videoDeviceInfos = deviceInfos.filter(
@@ -67,14 +67,11 @@ export default function FacingPage() {
             );
             console.log("videoDeviceInfos", videoDeviceInfos);
 
-            return deviceInfos;
+            if (deviceInfos.length > 0) {
+              setFacingMode("environment");
+            }
           })
           .catch(handleError);
-
-        // @ts-ignore
-        if (deviceInfos && deviceInfos.length > 0) {
-          setFacingMode("environment");
-        }
       })
       .catch((err) => {
         console.log("err", err);
@@ -87,7 +84,7 @@ export default function FacingPage() {
     // navigator.mediaDevices.enumerateDevices().then((devices) => {
     // if (devices.filter((device) => device.kind === "videoinput").length > 1) {
     // call getUserMedia first for permission prompt on iOS
-    if (facingMode) {
+    if (Boolean(facingMode)) {
       const allowedStream = navigator.mediaDevices
         .getUserMedia({
           audio: false,

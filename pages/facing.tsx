@@ -3,34 +3,6 @@ import React, { useCallback, useEffect, useState } from "react";
 // @ts-ignore
 import styles from "../styles/Home.module.css";
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    alert(JSON.stringify(error) + JSON.stringify(errorInfo));
-  }
-
-  render() {
-    // @ts-ignore
-    if (this.state.hasError) {
-      return (
-        <div>
-          <h1>Something went wrong.</h1>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
-
 export default function FacingPage() {
   const [facingMode, setFacingMode] = useState("");
   const [deviceInfosError, setDeviceInfosError] = useState<{
@@ -47,9 +19,14 @@ export default function FacingPage() {
   };
 
   useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then((deInfo) => {
-      console.log("deInfo", deInfo);
-    });
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then((deInfo) => {
+        console.log("deInfo", deInfo);
+      })
+      .catch((err) => {
+        alert(err);
+      });
 
     // To trigger Ask Permission Dialog
     navigator.mediaDevices
@@ -142,54 +119,52 @@ export default function FacingPage() {
       <Head>
         <title>Exact Device | Camera Test Page</title>
       </Head>
-      <ErrorBoundary>
-        <div className={styles.container}>
-          <h1 className={styles.heading}>Camera Test</h1>
+      <div className={styles.container}>
+        <h1 className={styles.heading}>Camera Test</h1>
 
-          <div className={styles.fieldsetContainer}>
-            <fieldset>
-              <legend>Facing Mode:</legend>
-              <button
-                onClick={() => {
-                  setMsg(facingMode === "environment" ? "front" : "back");
-                  handleSwitchCamera();
-                }}
-                className={styles.button}
-              >
-                Switch
-              </button>
-              <button
-                onClick={() => {
-                  setMsg("");
-                  clearMediaStream();
-                }}
-                className={styles.button}
-              >
-                Clear
-              </button>
-            </fieldset>
-          </div>
-
-          <div className={styles.fieldsetContainer}>
-            <fieldset>
-              <legend>Message:</legend>
-              <span style={{ minHeight: "1rem", wordBreak: "break-all" }}>
-                {msg}
-              </span>
-            </fieldset>
-          </div>
-
-          <div id="qr-video-container">
-            <video
-              id="qr-video"
-              muted
-              autoPlay
-              playsInline
-              className={styles.video}
-            />
-          </div>
+        <div className={styles.fieldsetContainer}>
+          <fieldset>
+            <legend>Facing Mode:</legend>
+            <button
+              onClick={() => {
+                setMsg(facingMode === "environment" ? "front" : "back");
+                handleSwitchCamera();
+              }}
+              className={styles.button}
+            >
+              Switch
+            </button>
+            <button
+              onClick={() => {
+                setMsg("");
+                clearMediaStream();
+              }}
+              className={styles.button}
+            >
+              Clear
+            </button>
+          </fieldset>
         </div>
-      </ErrorBoundary>
+
+        <div className={styles.fieldsetContainer}>
+          <fieldset>
+            <legend>Message:</legend>
+            <span style={{ minHeight: "1rem", wordBreak: "break-all" }}>
+              {msg}
+            </span>
+          </fieldset>
+        </div>
+
+        <div id="qr-video-container">
+          <video
+            id="qr-video"
+            muted
+            autoPlay
+            playsInline
+            className={styles.video}
+          />
+        </div>
+      </div>
     </>
   );
 }

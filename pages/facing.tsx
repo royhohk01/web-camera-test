@@ -83,39 +83,42 @@ export default function FacingPage() {
   }, []);
 
   useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
-      if (devices.filter((device) => device.kind === "videoinput").length > 1) {
-        // call getUserMedia first for permission prompt on iOS
-        const allowedStream = navigator.mediaDevices
-          .getUserMedia({
-            video: { facingMode },
-          })
-          .catch((e) => {
-            console.log("switch camera error", e);
-            alert("Error occurred");
-          });
-
-        allowedStream.then((stream) => {
-          console.log(stream);
-          // @ts-ignore
-          window.stm = stream;
-
-          const videoElement = document.getElementById(
-            "qr-video"
-          ) as HTMLVideoElement;
-          if ("srcObject" in videoElement) {
-            // @ts-ignore
-            videoElement.srcObject = window.stm;
-          } else {
-            // @ts-ignore
-            videoElement.src = window.URL.createObjectURL(window.stm);
-          }
-          videoElement.onloadedmetadata = function (e) {
-            videoElement.play();
-          };
+    // navigator.mediaDevices.enumerateDevices().then((devices) => {
+    // if (devices.filter((device) => device.kind === "videoinput").length > 1) {
+    // call getUserMedia first for permission prompt on iOS
+    if (facingMode === "") {
+      const allowedStream = navigator.mediaDevices
+        .getUserMedia({
+          audio: false,
+          video: { facingMode },
+        })
+        .catch((e) => {
+          console.log("switch camera error", e);
+          alert("Error occurred");
         });
-      }
-    });
+
+      allowedStream.then((stream) => {
+        console.log(stream);
+        // @ts-ignore
+        window.stm = stream;
+
+        const videoElement = document.getElementById(
+          "qr-video"
+        ) as HTMLVideoElement;
+        if ("srcObject" in videoElement) {
+          // @ts-ignore
+          videoElement.srcObject = window.stm;
+        } else {
+          // @ts-ignore
+          videoElement.src = window.URL.createObjectURL(window.stm);
+        }
+        videoElement.onloadedmetadata = function (e) {
+          videoElement.play();
+        };
+      });
+      // }
+      // });
+    }
   }, [facingMode]);
 
   const clearMediaStream = () => {
@@ -149,7 +152,7 @@ export default function FacingPage() {
             <legend>Facing Mode:</legend>
             <button
               onClick={() => {
-                setMsg(facingMode);
+                setMsg(facingMode === "environment" ? "back" : "front");
                 handleSwitchCamera();
               }}
               className={styles.button}

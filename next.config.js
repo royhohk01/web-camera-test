@@ -4,4 +4,5 @@ module.exports = {
 
     return config;
   },
+  basePath: "/web-camera-test",
 };

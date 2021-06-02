@@ -225,6 +225,15 @@ export default function Home() {
               }}
               className={styles.button}
             >
+              Start
+            </button>
+            <button
+              onClick={() => {
+                setMsg("Facing Mode");
+                handleHardSwitch();
+              }}
+              className={styles.button}
+            >
               Switch
             </button>
             <button

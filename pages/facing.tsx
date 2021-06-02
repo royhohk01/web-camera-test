@@ -69,6 +69,7 @@ export default function FacingPage() {
 
             if (deviceInfos.length > 0) {
               setFacingMode("environment");
+              setMsg("back");
             }
           })
           .catch(handleError);
@@ -141,54 +142,54 @@ export default function FacingPage() {
       <Head>
         <title>Exact Device | Camera Test Page</title>
       </Head>
-      {/* <ErrorBoundary> */}
-      <div className={styles.container}>
-        <h1 className={styles.heading}>Camera Test</h1>
+      <ErrorBoundary>
+        <div className={styles.container}>
+          <h1 className={styles.heading}>Camera Test</h1>
 
-        <div className={styles.fieldsetContainer}>
-          <fieldset>
-            <legend>Facing Mode:</legend>
-            <button
-              onClick={() => {
-                setMsg(facingMode === "environment" ? "front" : "back");
-                handleSwitchCamera();
-              }}
-              className={styles.button}
-            >
-              Switch
-            </button>
-            <button
-              onClick={() => {
-                setMsg("");
-                clearMediaStream();
-              }}
-              className={styles.button}
-            >
-              Clear
-            </button>
-          </fieldset>
-        </div>
+          <div className={styles.fieldsetContainer}>
+            <fieldset>
+              <legend>Facing Mode:</legend>
+              <button
+                onClick={() => {
+                  setMsg(facingMode === "environment" ? "front" : "back");
+                  handleSwitchCamera();
+                }}
+                className={styles.button}
+              >
+                Switch
+              </button>
+              <button
+                onClick={() => {
+                  setMsg("");
+                  clearMediaStream();
+                }}
+                className={styles.button}
+              >
+                Clear
+              </button>
+            </fieldset>
+          </div>
 
-        <div className={styles.fieldsetContainer}>
-          <fieldset>
-            <legend>Message:</legend>
-            <span style={{ minHeight: "1rem", wordBreak: "break-all" }}>
-              {msg}
-            </span>
-          </fieldset>
-        </div>
+          <div className={styles.fieldsetContainer}>
+            <fieldset>
+              <legend>Message:</legend>
+              <span style={{ minHeight: "1rem", wordBreak: "break-all" }}>
+                {msg}
+              </span>
+            </fieldset>
+          </div>
 
-        <div id="qr-video-container">
-          <video
-            id="qr-video"
-            muted
-            autoPlay
-            playsInline
-            className={styles.video}
-          />
+          <div id="qr-video-container">
+            <video
+              id="qr-video"
+              muted
+              autoPlay
+              playsInline
+              className={styles.video}
+            />
+          </div>
         </div>
-      </div>
-      {/* </ErrorBoundary> */}
+      </ErrorBoundary>
     </>
   );
 }

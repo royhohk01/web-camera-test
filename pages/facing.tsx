@@ -83,6 +83,7 @@ export default function FacingPage() {
   }, []);
 
   useEffect(() => {
+    console.log("facingMode", facingMode);
     // navigator.mediaDevices.enumerateDevices().then((devices) => {
     // if (devices.filter((device) => device.kind === "videoinput").length > 1) {
     // call getUserMedia first for permission prompt on iOS
@@ -136,6 +137,7 @@ export default function FacingPage() {
   const handleSwitchCamera = useCallback(() => {
     clearMediaStream();
     setFacingMode((prev) => (prev === "environment" ? "user" : "environment"));
+    setMsg(facingMode === "environment" ? "back" : "front");
   }, [facingMode]);
 
   return (
@@ -152,7 +154,6 @@ export default function FacingPage() {
             <legend>Facing Mode:</legend>
             <button
               onClick={() => {
-                setMsg(facingMode === "environment" ? "back" : "front");
                 handleSwitchCamera();
               }}
               className={styles.button}

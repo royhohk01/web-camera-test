@@ -61,6 +61,7 @@ export default function ExactPage() {
 
   useEffect(() => {
     if (deviceInfos.length > 0 && currentDeviceInfoIndex > -1) {
+      setMsg(JSON.stringify(deviceInfos[currentDeviceInfoIndex]));
       clearMediaStream();
 
       const constraints = {
@@ -124,7 +125,6 @@ export default function ExactPage() {
 
     clearMediaStream();
     setCurrentDeviceInfosIndex(nextDeviceIndex);
-    setMsg(JSON.stringify(deviceInfos[nextDeviceIndex]));
   }, [deviceInfos, currentDeviceInfoIndex]);
 
   return (
@@ -161,7 +161,9 @@ export default function ExactPage() {
         <div className={styles.fieldsetContainer}>
           <fieldset>
             <legend>Message:</legend>
-            <span style={{ minHeight: "1rem" }}>{msg}</span>
+            <span style={{ minHeight: "1rem", wordBreak: "break-all" }}>
+              {msg}
+            </span>
           </fieldset>
         </div>
 

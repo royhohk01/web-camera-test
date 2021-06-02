@@ -32,7 +32,7 @@ class ErrorBoundary extends React.Component {
 }
 
 export default function FacingPage() {
-  const [facingMode, setFacingMode] = useState("");
+  const [facingMode, setFacingMode] = useState(null);
   const [deviceInfosError, setDeviceInfosError] = useState<{
     message?: any;
     name?: any;
@@ -87,7 +87,7 @@ export default function FacingPage() {
     // navigator.mediaDevices.enumerateDevices().then((devices) => {
     // if (devices.filter((device) => device.kind === "videoinput").length > 1) {
     // call getUserMedia first for permission prompt on iOS
-    if (facingMode !== "") {
+    if (facingMode) {
       const allowedStream = navigator.mediaDevices
         .getUserMedia({
           audio: false,
@@ -137,7 +137,6 @@ export default function FacingPage() {
   const handleSwitchCamera = useCallback(() => {
     clearMediaStream();
     setFacingMode((prev) => (prev === "environment" ? "user" : "environment"));
-    setMsg(facingMode === "environment" ? "back" : "front");
   }, [facingMode]);
 
   return (
@@ -154,6 +153,7 @@ export default function FacingPage() {
             <legend>Facing Mode:</legend>
             <button
               onClick={() => {
+                setMsg(facingMode === "environment" ? "front" : "back");
                 handleSwitchCamera();
               }}
               className={styles.button}

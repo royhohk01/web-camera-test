@@ -153,9 +153,11 @@ export default function Home() {
   }, [deviceInfos, currentDeviceInfoIndex]);
 
   const handleStart = () => {
-    navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
-      setShouldStart(true);
-    });
+    navigator.mediaDevices
+      .getUserMedia({ audio: false, video: true })
+      .then(() => {
+        setShouldStart(true);
+      });
   };
 
   const clearMediaStream = () => {
@@ -236,7 +238,10 @@ export default function Home() {
             <button
               onClick={() => {
                 setMsg("Facing Mode");
-                navigator.mediaDevices.getUserMedia({ video: true });
+                navigator.mediaDevices.getUserMedia({
+                  audio: false,
+                  video: true,
+                });
               }}
               className={styles.button}
             >

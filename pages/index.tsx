@@ -155,7 +155,9 @@ export default function Home() {
   const handleStart = () => {
     navigator.mediaDevices
       .getUserMedia({ audio: false, video: true })
-      .then(() => {
+      .then((stream) => {
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop());
         setShouldStart(true);
       });
   };

@@ -19,7 +19,7 @@ export default function FacingPage() {
   };
 
   useEffect(() => {
-    try {
+    if (navigator.mediaDevices) {
       navigator.mediaDevices.enumerateDevices().then((deInfo) => {
         console.log("deInfo", deInfo);
       });
@@ -51,9 +51,6 @@ export default function FacingPage() {
           console.log("err", err);
           alert("You blocked Camera Permission.");
         });
-    } catch (error) {
-      alert("Error");
-      alert(error);
     }
   }, []);
 

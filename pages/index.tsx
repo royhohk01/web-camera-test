@@ -240,10 +240,15 @@ export default function Home() {
             <button
               onClick={() => {
                 setMsg("Facing Mode");
-                navigator.mediaDevices.getUserMedia({
-                  audio: false,
-                  video: true,
-                });
+                navigator.mediaDevices
+                  .getUserMedia({
+                    audio: false,
+                    video: true,
+                  })
+                  .then((stream) => {
+                    const tracks = stream.getTracks();
+                    tracks.forEach((track) => track.stop());
+                  });
               }}
               className={styles.button}
             >

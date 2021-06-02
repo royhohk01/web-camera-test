@@ -61,7 +61,6 @@ export default function ExactPage() {
 
   useEffect(() => {
     if (deviceInfos.length > 0 && currentDeviceInfoIndex > -1) {
-      setMsg("Exact Device");
       clearMediaStream();
 
       const constraints = {

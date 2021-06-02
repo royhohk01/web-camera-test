@@ -88,7 +88,6 @@ export default function Home() {
     // To trigger Ask Permission Dialog
     // navigator.mediaDevices.getUserMedia({ video: true });
     if (shouldStart) {
-      navigator.mediaDevices.getUserMedia({ video: true });
       navigator.mediaDevices
         .enumerateDevices()
         .then((deviceInfos) => {
@@ -151,6 +150,11 @@ export default function Home() {
     }
   }, [deviceInfos, currentDeviceInfoIndex]);
 
+  const handleStart = () => {
+    navigator.mediaDevices.getUserMedia({ video: true });
+    setShouldStart(true);
+  };
+
   const clearMediaStream = () => {
     // @ts-ignore
     const stream = window.stm;
@@ -196,7 +200,8 @@ export default function Home() {
           <fieldset>
             <legend>Exact Device:</legend>
             <button
-              onClick={() => setShouldStart(true)}
+              // onClick={() => setShouldStart(true)}
+              onClick={handleStart}
               className={styles.button}
             >
               Start

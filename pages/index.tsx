@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useCallBack, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // @ts-ignore
 import styles from "../styles/Home.module.css";
 
@@ -163,7 +163,7 @@ export default function Home() {
     }
   };
 
-  const handleSwitchCamera = useCallBack(() => {
+  const handleSwitchCamera = useCallback(() => {
     console.log("deviceInfos", deviceInfos);
     console.log("currentDeviceInfoIndex", currentDeviceInfoIndex);
 

@@ -23,37 +23,38 @@ export default function FacingPage() {
       navigator.mediaDevices.enumerateDevices().then((deInfo) => {
         console.log("deInfo", deInfo);
       });
+
+      // To trigger Ask Permission Dialog
+      navigator.mediaDevices
+        .getUserMedia({ audio: false, video: true })
+        .then((stream) => {
+          // We haven't use MediaStream yet. Stop all tracks first.
+          const tracks = stream.getTracks();
+          tracks.forEach((track) => track.stop());
+
+          navigator.mediaDevices
+            .enumerateDevices()
+            .then((deviceInfos) => {
+              const videoDeviceInfos = deviceInfos.filter(
+                (deviceInfo) => deviceInfo.kind === "videoinput"
+              );
+              console.log("videoDeviceInfos", videoDeviceInfos);
+
+              if (deviceInfos.length > 0) {
+                setFacingMode("environment");
+                setMsg("back");
+              }
+            })
+            .catch(handleError);
+        })
+        .catch((err) => {
+          console.log("err", err);
+          alert("You blocked Camera Permission.");
+        });
     } catch (error) {
+      alert("Error");
       alert(error);
     }
-
-    // To trigger Ask Permission Dialog
-    navigator.mediaDevices
-      .getUserMedia({ audio: false, video: true })
-      .then((stream) => {
-        // We haven't use MediaStream yet. Stop all tracks first.
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
-
-        navigator.mediaDevices
-          .enumerateDevices()
-          .then((deviceInfos) => {
-            const videoDeviceInfos = deviceInfos.filter(
-              (deviceInfo) => deviceInfo.kind === "videoinput"
-            );
-            console.log("videoDeviceInfos", videoDeviceInfos);
-
-            if (deviceInfos.length > 0) {
-              setFacingMode("environment");
-              setMsg("back");
-            }
-          })
-          .catch(handleError);
-      })
-      .catch((err) => {
-        console.log("err", err);
-        alert("You blocked Camera Permission.");
-      });
   }, []);
 
   useEffect(() => {

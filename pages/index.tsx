@@ -6,30 +6,31 @@ import styles from "../styles/Home.module.css";
 const hardSwitch = (isBackCam = true) => {
   navigator.mediaDevices.enumerateDevices().then((devices) => {
     if (devices.filter((device) => device.kind === "videoinput").length > 1) {
-      navigator.mediaDevices
-        .getUserMedia({
-          video: { facingMode: isBackCam ? "environment" : "user" },
-        })
-        .then((stream) => {
-          console.log(stream);
-          // @ts-ignore
-          window.sss = stream;
+      // call getUserMedia first for permission prompt on iOS
+      const allowedStream = navigator.mediaDevices.getUserMedia({
+        video: { facingMode: isBackCam ? "environment" : "user" },
+      });
 
-          const videoElement = document.getElementById(
-            "qr-video"
-          ) as HTMLVideoElement;
-          if ("srcObject" in videoElement) {
-            // @ts-ignore
-            videoElement.srcObject = window.sss;
-          } else {
-            // @ts-ignore
-            videoElement.src = window.URL.createObjectURL(window.sss);
-            console.log("i am inside");
-          }
-          videoElement.onloadedmetadata = function (e) {
-            videoElement.play();
-          };
-        });
+      allowedStream.then((stream) => {
+        console.log(stream);
+        // @ts-ignore
+        window.sss = stream;
+
+        const videoElement = document.getElementById(
+          "qr-video"
+        ) as HTMLVideoElement;
+        if ("srcObject" in videoElement) {
+          // @ts-ignore
+          videoElement.srcObject = window.sss;
+        } else {
+          // @ts-ignore
+          videoElement.src = window.URL.createObjectURL(window.sss);
+          console.log("i am inside");
+        }
+        videoElement.onloadedmetadata = function (e) {
+          videoElement.play();
+        };
+      });
     }
   });
 };
@@ -221,7 +222,7 @@ export default function Home() {
             <button
               onClick={() => {
                 setMsg("Facing Mode");
-                handleHardSwitch();
+                navigator.mediaDevices.getUserMedia({ video: true });
               }}
               className={styles.button}
             >

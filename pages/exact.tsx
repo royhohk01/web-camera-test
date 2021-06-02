@@ -130,7 +130,7 @@ export default function ExactPage() {
   return (
     <>
       <Head>
-        <title>Exact Device | Camera Test Page</title>
+        <title>Exact Device | Camera Test Page </title>
       </Head>
       <div className={styles.container}>
         <h1 className={styles.heading}>Camera Test</h1>

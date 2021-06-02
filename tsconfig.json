@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "target": "es5",
+    "baseUrl": ".",
+    "paths": {
+      "@modules/*": ["src/modules/*"],
+      "@redux": ["src/redux/index"],
+      "@redux/*": ["src/redux/*"],
+      "@route": ["routes/index"],
+      "@ui-core": ["src/ui/index"],
+      "@ui-core-extend/*": ["src/ui-core-extend/*"]
+    }
+  },
+  "exclude": ["node_modules", "**/src/**/*.stories.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+}

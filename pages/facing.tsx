@@ -19,14 +19,13 @@ export default function FacingPage() {
   };
 
   useEffect(() => {
-    navigator.mediaDevices
-      .enumerateDevices()
-      .then((deInfo) => {
+    try {
+      navigator.mediaDevices.enumerateDevices().then((deInfo) => {
         console.log("deInfo", deInfo);
-      })
-      .catch((err) => {
-        alert(err);
       });
+    } catch (error) {
+      alert(error);
+    }
 
     // To trigger Ask Permission Dialog
     navigator.mediaDevices

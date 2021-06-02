@@ -164,7 +164,7 @@ export default function Home() {
 
   const handleSwitchCamera = () => {
     const nextDeviceIndex =
-      currentDeviceInfoIndex < 0
+      currentDeviceInfoIndex <= 0
         ? deviceInfos.length - 1
         : currentDeviceInfoIndex - 1;
     clearMediaStream();

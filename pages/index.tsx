@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useCallBack, useEffect, useState } from "react";
 // @ts-ignore
 import styles from "../styles/Home.module.css";
 
@@ -163,16 +163,19 @@ export default function Home() {
     }
   };
 
-  const handleSwitchCamera = () => {
+  const handleSwitchCamera = useCallBack(() => {
+    console.log("deviceInfos", deviceInfos);
     console.log("currentDeviceInfoIndex", currentDeviceInfoIndex);
+
     const nextDeviceIndex =
       currentDeviceInfoIndex <= 0
         ? deviceInfos.length - 1
         : currentDeviceInfoIndex - 1;
     console.log("nextDeviceIndex", nextDeviceIndex);
+
     clearMediaStream();
     setCurrentDeviceInfosIndex(nextDeviceIndex);
-  };
+  }, [deviceInfos, currentDeviceInfoIndex]);
 
   const [iii, setiii] = useState(true);
   const handleHardSwitch = () => {

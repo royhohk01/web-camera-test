@@ -164,10 +164,12 @@ export default function Home() {
   };
 
   const handleSwitchCamera = () => {
+    console.log("currentDeviceInfoIndex", currentDeviceInfoIndex);
     const nextDeviceIndex =
       currentDeviceInfoIndex <= 0
         ? deviceInfos.length - 1
         : currentDeviceInfoIndex - 1;
+    console.log("nextDeviceIndex", nextDeviceIndex);
     clearMediaStream();
     setCurrentDeviceInfosIndex(nextDeviceIndex);
   };

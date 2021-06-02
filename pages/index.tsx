@@ -126,9 +126,11 @@ export default function Home() {
         },
       };
 
+      console.log("switch camera: constraints", constraints);
       navigator.mediaDevices
         .getUserMedia(constraints)
         .then((stream: MediaStream) => {
+          console.log("switch camera: MediaStream", stream);
           // @ts-ignore
           window.stm = stream;
 

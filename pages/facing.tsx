@@ -86,7 +86,7 @@ export default function FacingPage() {
     // navigator.mediaDevices.enumerateDevices().then((devices) => {
     // if (devices.filter((device) => device.kind === "videoinput").length > 1) {
     // call getUserMedia first for permission prompt on iOS
-    if (facingMode === "") {
+    if (facingMode !== "") {
       const allowedStream = navigator.mediaDevices
         .getUserMedia({
           audio: false,

@@ -82,31 +82,35 @@ export default function Home() {
   // }, []);
 
   useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then((deInfo) => {
-      console.log("deInfo", deInfo);
-    });
-    // To trigger Ask Permission Dialog
-    // navigator.mediaDevices.getUserMedia({ video: true });
-    if (shouldStart) {
-      navigator.mediaDevices
-        .enumerateDevices()
-        .then((deviceInfos) => {
-          const videoDeviceInfos = deviceInfos.filter(
-            (deviceInfo) => deviceInfo.kind === "videoinput"
-          );
-          console.log("videoDeviceInfos", videoDeviceInfos);
-          setDeviceInfos(videoDeviceInfos);
-          // // iOS returns deviceInfo with all empty string if Permission not granted
-          // const isPermissionGranted = videoDeviceInfos.every((deviceInfo) =>
-          //   Boolean(deviceInfo.deviceId)
-          // );
-          // if (isPermissionGranted) {
-          //   setDeviceInfos(videoDeviceInfos);
-          // } else {
-          //   alert("permisson not granted");
-          // }
-        })
-        .catch(handleError);
+    if (!Boolean(navigator.mediaDevices)) {
+      alert("unsupported browser");
+    } else {
+      navigator.mediaDevices.enumerateDevices().then((deInfo) => {
+        console.log("deInfo", deInfo);
+      });
+      // To trigger Ask Permission Dialog
+      // navigator.mediaDevices.getUserMedia({ video: true });
+      if (shouldStart) {
+        navigator.mediaDevices
+          .enumerateDevices()
+          .then((deviceInfos) => {
+            const videoDeviceInfos = deviceInfos.filter(
+              (deviceInfo) => deviceInfo.kind === "videoinput"
+            );
+            console.log("videoDeviceInfos", videoDeviceInfos);
+            setDeviceInfos(videoDeviceInfos);
+            // // iOS returns deviceInfo with all empty string if Permission not granted
+            // const isPermissionGranted = videoDeviceInfos.every((deviceInfo) =>
+            //   Boolean(deviceInfo.deviceId)
+            // );
+            // if (isPermissionGranted) {
+            //   setDeviceInfos(videoDeviceInfos);
+            // } else {
+            //   alert("permisson not granted");
+            // }
+          })
+          .catch(handleError);
+      }
     }
   }, [shouldStart]);
 

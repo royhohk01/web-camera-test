@@ -20,43 +20,47 @@ export default function ExactPage() {
   };
 
   useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then((deInfo) => {
-      console.log("deInfo", deInfo);
-    });
-    // To trigger Ask Permission Dialog
-    navigator.mediaDevices
-      .getUserMedia({ audio: false, video: true })
-      .then((stream) => {
-        // We haven't use MediaStream yet. Stop all tracks first.
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
-
-        navigator.mediaDevices
-          .enumerateDevices()
-          .then((deviceInfos) => {
-            const videoDeviceInfos = deviceInfos.filter(
-              (deviceInfo) => deviceInfo.kind === "videoinput"
-            );
-            console.log("videoDeviceInfos", videoDeviceInfos);
-            setDeviceInfos(videoDeviceInfos);
-            const idx =
-              videoDeviceInfos.length > 0 ? videoDeviceInfos.length - 1 : -1;
-            setCurrentDeviceInfosIndex(idx);
-            // // iOS returns deviceInfo with all empty string if Permission not granted
-            // const isPermissionGranted = videoDeviceInfos.every((deviceInfo) =>
-            //   Boolean(deviceInfo.deviceId)
-            // );
-            // if (isPermissionGranted) {
-            //   setDeviceInfos(videoDeviceInfos);
-            // } else {
-            //   alert("permisson not granted");
-            // }
-          })
-          .catch(handleError);
-      })
-      .catch((err) => {
-        alert("You blocked Camera Permission.");
+    if (!Boolean(navigator.mediaDevices)) {
+      alert("unsupported browser");
+    } else {
+      navigator.mediaDevices.enumerateDevices().then((deInfo) => {
+        console.log("deInfo", deInfo);
       });
+      // To trigger Ask Permission Dialog
+      navigator.mediaDevices
+        .getUserMedia({ audio: false, video: true })
+        .then((stream) => {
+          // We haven't use MediaStream yet. Stop all tracks first.
+          const tracks = stream.getTracks();
+          tracks.forEach((track) => track.stop());
+
+          navigator.mediaDevices
+            .enumerateDevices()
+            .then((deviceInfos) => {
+              const videoDeviceInfos = deviceInfos.filter(
+                (deviceInfo) => deviceInfo.kind === "videoinput"
+              );
+              console.log("videoDeviceInfos", videoDeviceInfos);
+              setDeviceInfos(videoDeviceInfos);
+              const idx =
+                videoDeviceInfos.length > 0 ? videoDeviceInfos.length - 1 : -1;
+              setCurrentDeviceInfosIndex(idx);
+              // // iOS returns deviceInfo with all empty string if Permission not granted
+              // const isPermissionGranted = videoDeviceInfos.every((deviceInfo) =>
+              //   Boolean(deviceInfo.deviceId)
+              // );
+              // if (isPermissionGranted) {
+              //   setDeviceInfos(videoDeviceInfos);
+              // } else {
+              //   alert("permisson not granted");
+              // }
+            })
+            .catch(handleError);
+        })
+        .catch((err) => {
+          alert("You blocked Camera Permission.");
+        });
+    }
   }, []);
 
   useEffect(() => {

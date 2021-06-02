@@ -19,7 +19,9 @@ export default function FacingPage() {
   };
 
   useEffect(() => {
-    if (navigator.mediaDevices) {
+    if (!Boolean(navigator.mediaDevices)) {
+      alert("unsupported browser");
+    } else {
       navigator.mediaDevices.enumerateDevices().then((deInfo) => {
         console.log("deInfo", deInfo);
       });
